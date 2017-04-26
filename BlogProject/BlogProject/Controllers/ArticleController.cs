@@ -73,5 +73,57 @@
                 return View(article);
             }
         }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using (var db = new BlogDbContext())
+            {
+                var article = db.Articles
+                    .Where(a => a.Id == id)
+                    .FirstOrDefault();
+
+                if (article == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(article);
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult ConfirmDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using (var db = new BlogDbContext())
+            {
+                var article = db.Articles
+                    .Where(a => a.Id == id)
+                    .FirstOrDefault();
+
+                if (article == null)
+                {
+                    return HttpNotFound();
+                }
+
+                db.Articles.Remove(article);
+                db.SaveChanges();
+
+                return RedirectToAction("List");
+            }
+        }
     }
 }
