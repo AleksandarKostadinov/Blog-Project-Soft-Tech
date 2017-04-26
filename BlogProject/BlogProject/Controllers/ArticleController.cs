@@ -85,9 +85,7 @@
 
             using (var db = new BlogDbContext())
             {
-                var article = db.Articles
-                    .Where(a => a.Id == id)
-                    .FirstOrDefault();
+                var article = db.Articles.Find(id);
 
                 if (article == null)
                 {
@@ -110,9 +108,7 @@
 
             using (var db = new BlogDbContext())
             {
-                var article = db.Articles
-                    .Where(a => a.Id == id)
-                    .FirstOrDefault();
+                var article = db.Articles.Find(id);
 
                 if (article == null)
                 {
@@ -124,6 +120,57 @@
 
                 return RedirectToAction("List");
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using (var db = new BlogDbContext())
+            {
+                var article = db.Articles.Find(id);
+
+                if (article == null)
+                {
+                    return HttpNotFound();
+                }
+
+                var articleViewModel = new ArticleViewModel
+                {
+                    Id = article.Id,
+                    Title = article.Title,
+                    Content = article.Content,
+                    AuthorId = article.AuthorId
+
+                };
+
+                return View(articleViewModel);
+            }
+        }
+
+        public ActionResult Edit(ArticleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var db = new BlogDbContext())
+                {
+                    var article = db.Articles.Find(model.Id);
+
+                    article.Title = model.Title;
+                    article.Content = model.Content;
+
+                    db.SaveChanges();
+                }
+
+                    return RedirectToAction("Details", new { id = model.Id });
+            }
+
+            return View(model);
         }
     }
 }
