@@ -87,7 +87,7 @@
             {
                 var article = db.Articles.Find(id);
 
-                if (article == null)
+                if (article == null || !IsAuthorized(article))
                 {
                     return HttpNotFound();
                 }
@@ -110,7 +110,7 @@
             {
                 var article = db.Articles.Find(id);
 
-                if (article == null)
+                if (article == null || !IsAuthorized(article))
                 {
                     return HttpNotFound();
                 }
@@ -135,7 +135,7 @@
             {
                 var article = db.Articles.Find(id);
 
-                if (article == null)
+                if (article == null || !IsAuthorized(article))
                 {
                     return HttpNotFound();
                 }
@@ -152,7 +152,8 @@
                 return View(articleViewModel);
             }
         }
-
+        [Authorize]
+        [HttpPost]
         public ActionResult Edit(ArticleViewModel model)
         {
             if (ModelState.IsValid)
@@ -160,6 +161,11 @@
                 using (var db = new BlogDbContext())
                 {
                     var article = db.Articles.Find(model.Id);
+
+                    if (article == null || !IsAuthorized(article))
+                    {
+                        return HttpNotFound();
+                    }
 
                     article.Title = model.Title;
                     article.Content = model.Content;
