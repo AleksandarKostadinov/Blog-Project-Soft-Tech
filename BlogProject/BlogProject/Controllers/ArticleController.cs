@@ -5,6 +5,7 @@
     using PagedList;
     using System.Data.Entity;
     using System.Linq;
+    using System.Net;
     using System.Web.Mvc;
 
     public class ArticleController : Controller
@@ -48,6 +49,29 @@
             }
 
             return View(article);
+        }
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using (var db = new BlogDbContext())
+            {
+                var article = db.Articles
+                    .Include(a => a.Author)
+                    .Where(a => a.Id == id)
+                    .FirstOrDefault();
+
+                if (article == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(article);
+            }
         }
     }
 }
