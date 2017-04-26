@@ -1,6 +1,7 @@
 ﻿namespace BlogProject.Models
 {
     using Microsoft.AspNet.Identity.EntityFramework;
+    using System.Data.Entity;
 
     public class BlogDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -8,6 +9,8 @@
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+
+        public DbSet<Article> Articles { get; set; }
 
         public static BlogDbContext Create()
         {

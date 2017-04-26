@@ -10,7 +10,7 @@ namespace BlogProject.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("List", "Article");
         }
     }
 }
