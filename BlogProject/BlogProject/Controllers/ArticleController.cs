@@ -172,5 +172,13 @@
 
             return View(model);
         }
+
+        private bool IsAuthorized(Article article)
+        {
+            bool isAdmin = this.User.IsInRole("Admin");
+            bool isAuthor = article.IsAuthor(this.User.Identity.GetUserId());
+
+            return isAdmin || isAuthor;
+        }
     }
 }
