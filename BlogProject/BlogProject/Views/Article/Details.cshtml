@@ -14,6 +14,12 @@
         <p>
             @Model.Content
         </p>
+
+        @if (!string.IsNullOrEmpty( Model.ImagePath))
+        {
+            <img src="@Model.ImagePath" alt="Article Pictire" class="img-responsive" width="300px" />
+        }
+        
         <small class="author">
             --author @Model.Author.FullName
         </small>
