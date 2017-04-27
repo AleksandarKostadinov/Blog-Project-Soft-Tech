@@ -6,7 +6,7 @@
 <div class="container">
     <div class="well">
         <h2>Create Article</h2>
-        @using (Html.BeginForm("Create", "Article", FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginForm("Create", "Article", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary("", new { @class = "text-danger" })

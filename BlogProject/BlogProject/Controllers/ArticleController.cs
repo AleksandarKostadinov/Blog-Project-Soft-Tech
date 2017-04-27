@@ -6,6 +6,7 @@
     using System.Data.Entity;
     using System.Linq;
     using System.Net;
+    using System.Web;
     using System.Web.Mvc;
 
     public class ArticleController : Controller
@@ -31,7 +32,7 @@
 
         [Authorize]
         [HttpPost]
-        public ActionResult Create(Article article)
+        public ActionResult Create(Article article, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
@@ -40,6 +41,32 @@
                     var authorId = this.User.Identity.GetUserId();
 
                     article.AuthorId = authorId;
+
+                    if (image != null)
+                    {
+                        var allowedContentTypes = new[] {
+                            "image/jpg",
+                            "image/jpeg",
+                            "image/pjpeg",
+                            "image/gif",
+                            "image/x-png",
+                            "image/png"
+                        };
+
+                        if (allowedContentTypes.Contains(image.ContentType.ToLower()))
+                        {
+                            var imagesPath = "/Content/Images/";
+
+                            var fileName = image.FileName;
+
+                            var uploadPath = imagesPath + fileName;
+                            var physicalPath = Server.MapPath(uploadPath);
+
+                            image.SaveAs(physicalPath);
+
+                            article.ImagePath = uploadPath;
+                        }
+                    }
 
                     db.Articles.Add(article);
                     db.SaveChanges();
