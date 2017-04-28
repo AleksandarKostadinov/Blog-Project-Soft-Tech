@@ -99,7 +99,7 @@
                 {
                     return HttpNotFound();
                 }
-
+                
                 return View(article);
             }
         }

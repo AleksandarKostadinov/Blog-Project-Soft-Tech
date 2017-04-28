@@ -10,5 +10,9 @@
         public string Text { get; set; }
 
         public string AutorName { get; set; }
+
+        public int ArticleId { get; set; }
+
+        public virtual Article Article { get; set; }
     }
 }
