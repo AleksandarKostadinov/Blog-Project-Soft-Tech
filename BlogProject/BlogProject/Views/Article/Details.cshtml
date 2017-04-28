@@ -1,5 +1,9 @@
-﻿@model BlogProject.Models.Article
-@using Microsoft.AspNet.Identity
+﻿@using Microsoft.AspNet.Identity
+@using PagedList;
+@using PagedList.Mvc;
+
+@model BlogProject.Models.Article
+
 @{
     ViewBag.Title = "Details";
 }
@@ -33,4 +37,22 @@
         </footer>
     </article>
 </div>
+
+<br/>
+@Html.ActionLink("Add Comment", "CreateComment", "Article", new { @id = Model.Id }, new { @class = "btn btn-primary btn-sm" })
+<h3 class="text-info">Comments</h3>
+<div class="container">
+    <div class="row">
+        @foreach (var comment in Model.Comments)
+        {
+           <div class="well">
+               <h4 class="text-left text-warning">@comment.AutorName</h4>
+               <h4 class="text-info">@comment.Text</h4>
+           </div>
+        }
+    </div>
+</div>
+@Html.PagedListPager(Model.Comments, page => Url.Action("Details", new { page }))
+
+
 <hr />
