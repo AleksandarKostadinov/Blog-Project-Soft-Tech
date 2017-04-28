@@ -2,11 +2,10 @@
 @{
     ViewBag.Title = "Add Comment";
 }
-
 <div class="container">
     <div class="well">
         <h2>Create Comment</h2>
-        @using (Html.BeginForm("CreateComment", "Article", FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginForm("CreateComment", "Article", new { id = ViewBag.ArticleId}, FormMethod.Post, new { @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -17,7 +16,7 @@
                     @Html.TextAreaFor(m => m.Text, new { @class = "form-control", @rows = "7" })
                 </div>
             </div>
-            @{ Model.ArticleId = ViewBag.ArticleId}
+            
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
                     @Html.ActionLink("Cancel", "List", "Article",null , new { @class = "btn btn-default" })

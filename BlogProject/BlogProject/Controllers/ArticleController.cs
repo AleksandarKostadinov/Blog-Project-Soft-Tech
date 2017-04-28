@@ -216,9 +216,52 @@
         [HttpGet]
         public ActionResult CreateComment(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             ViewBag.ArticleId = id;
             return View();
         }
+
+
+        [HttpPost]
+        public ActionResult CreateComment(ArticleComment comment, int id)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var db = new BlogDbContext())
+                {
+                    var userId = this.User.Identity.GetUserId();
+
+                    var currentUser = db.Users
+                        .Where(u => u.Id == userId)
+                        .FirstOrDefault();
+
+                    var userName = string.Empty;
+
+                    if (currentUser == null)
+                    {
+                        userName = "anonymous";
+                    }
+                    else
+                    {
+                        userName = currentUser.FullName;
+                    }
+
+                    comment.AutorName = userName;
+                    comment.ArticleId = id;
+                    db.Comments.Add(comment);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Details", new { id = comment.ArticleId });
+                }
+            }
+
+            return RedirectToAction("CteateComment", new { id = comment.ArticleId});
+        } 
+
+
 
         private bool IsAuthorized(Article article)
         {
@@ -227,5 +270,6 @@
 
             return isAdmin || isAuthor;
         }
+
     }
 }
