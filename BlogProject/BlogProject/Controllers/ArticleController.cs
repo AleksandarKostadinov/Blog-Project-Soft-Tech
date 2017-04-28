@@ -3,6 +3,7 @@
     using BlogProject.Models;
     using Microsoft.AspNet.Identity;
     using PagedList;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
     using System.Net;
@@ -42,6 +43,7 @@
                     var authorId = this.User.Identity.GetUserId();
 
                     article.AuthorId = authorId;
+                    article.Comments = new List<ArticleComment>();
 
                     if (image != null)
                     {
