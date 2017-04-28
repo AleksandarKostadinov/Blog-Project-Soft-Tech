@@ -18,7 +18,8 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("A.K. Blog", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Create Article", "Create", "Article", new { area = "" }, new { @class = "btn btn-success btn-lg" })
+                @Html.ActionLink("Create Article", "Create", "Article", new { area = "" }, new { @class = "btn btn-warning btn-lg" })
+                @Html.ActionLink("All Articles", "List", "Article", new { area = "" }, new { @class = " btn btn-success btn-lg" })
             </div>
             <div class="navbar-collapse collapse">
                 @Html.Partial("_LoginPartial")

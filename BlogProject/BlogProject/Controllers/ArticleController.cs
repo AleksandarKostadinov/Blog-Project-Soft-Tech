@@ -16,6 +16,7 @@
             using (var db = new BlogDbContext())
             {
                 var articles = db.Articles
+                    .OrderByDescending(a => a.Id)
                     .Include(a => a.Author)
                     .ToList();
 
