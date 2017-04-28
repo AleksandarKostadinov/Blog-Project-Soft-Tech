@@ -17,7 +17,7 @@
 
         public string ImagePath { get; set; }
 
-        public virtual List<ArticleComment> Comments { get; set; }
+        public virtual IPagedList<ArticleComment> Comments { get; set; }
 
         public string AuthorId { get; set; }
         public virtual ApplicationUser Author { get; set; }

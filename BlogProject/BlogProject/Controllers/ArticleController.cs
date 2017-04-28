@@ -43,7 +43,6 @@
                     var authorId = this.User.Identity.GetUserId();
 
                     article.AuthorId = authorId;
-                    article.Comments = new List<ArticleComment>();
 
                     if (image != null)
                     {
@@ -81,7 +80,7 @@
             return View(article);
         }
 
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? page)
         {
             if (id == null)
             {
@@ -99,7 +98,12 @@
                 {
                     return HttpNotFound();
                 }
-                
+
+                article.Comments = db.Comments
+                    .Where(c => c.ArticleId == article.Id)
+                    .OrderByDescending(c => c.Id)
+                    .ToPagedList(page ?? 1, 6);
+
                 return View(article);
             }
         }
