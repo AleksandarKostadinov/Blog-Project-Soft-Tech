@@ -216,9 +216,8 @@
         [HttpGet]
         public ActionResult CreateComment(int? id)
         {
-
-
-            return RedirectToAction("AddComment", new { id = id });
+            ViewBag.ArticleId = id;
+            return View();
         }
 
         private bool IsAuthorized(Article article)
