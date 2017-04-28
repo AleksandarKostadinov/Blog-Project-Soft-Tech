@@ -213,6 +213,14 @@
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult CreateComment(int? id)
+        {
+
+
+            return RedirectToAction("AddComment", new { id = id });
+        }
+
         private bool IsAuthorized(Article article)
         {
             bool isAdmin = this.User.IsInRole("Admin");
