@@ -102,7 +102,7 @@
                 article.Comments = db.Comments
                     .Where(c => c.ArticleId == article.Id)
                     .OrderByDescending(c => c.Id)
-                    .ToPagedList(page ?? 1, 6);
+                    .ToPagedList(page ?? 1, 4);
 
                 return View(article);
             }
@@ -258,7 +258,7 @@
                 }
             }
 
-            return RedirectToAction("CteateComment", new { id = comment.ArticleId});
+            return RedirectToAction("CreateComment",new {id });
         } 
 
 
